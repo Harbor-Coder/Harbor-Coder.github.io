@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Harbor Games - Trick Shot Challenge</title>
+  <title>Harbor Games</title>
   <style>
     :root {
       --primary: #007bff;
@@ -91,12 +91,49 @@
       border-radius: 6px;
       cursor: pointer;
     }
+
+    .wheel-section {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .spin-button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      margin: 0.5rem;
+      cursor: pointer;
+    }
+
+    .result, .winner {
+      margin-top: 1rem;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .winner {
+      color: var(--accent);
+      font-size: 1.5rem;
+    }
+
+    svg {
+      transition: transform 3s ease-out;
+    }
+
+    .segment-text {
+      font-size: 12px;
+      fill: white;
+      text-anchor: middle;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>🌊 Harbor Games</h1>
-    <h2>🎯 Trick Shot Challenge</h2>
+    <h1>🌊 Harbor Games 🌊</h1>
+    <h2>Challenges</h2>
     <p class="group-tagline">Created for the Harbor Homeschool Group</p>
   </header>
 
@@ -119,7 +156,11 @@
       </div>
     </div>
         <div class="wheel-section">
-      <svg id="wheel" width="320" height="320" viewBox="0 0 320 320"></svg>
+      <svg id="wheel" width="320" height="320" viewBox="0 0 320 320">
+        <defs>
+          <circle id="textPathCircle" cx="160" cy="160" r="110" />
+        </defs>
+      </svg>
       <button class="spin-button" onclick="spinWheel()">🎡 Spin the Wheel!</button>
       <button class="spin-button" onclick="resetGame()">🔄 Reset Game</button>
       <div class="result" id="resultText">Get ready to spin!</div>
@@ -129,12 +170,12 @@
 
   <script>
     let challenges = [
-      "Ricochet Shot",
+      "Tunnel Shot",
+      "Laser Drop",
+      "Ricochet",
       "Mystery Box Shot",
       "Gap Shot",
-      "Snipe",
-      "Tunnel Shot",
-      "Laser Drop"
+      "Spin Shot"
     ];
 
     const segmentColors = [
@@ -146,7 +187,7 @@
     const wheel = document.getElementById("wheel");
 
     function renderWheel() {
-      wheel.innerHTML = "";
+      wheel.innerHTML = '<defs><circle id="textPathCircle" cx="160" cy="160" r="110" /></defs>';
       const centerX = 160, centerY = 160, radius = 150;
       const angleStep = 2 * Math.PI / challenges.length;
 
@@ -165,14 +206,26 @@
         path.setAttribute("fill", segmentColors[i % segmentColors.length]);
         wheel.appendChild(path);
 
-        const textAngle = startAngle + angleStep / 2;
-        const tx = centerX + (radius / 1.5) * Math.cos(textAngle);
-        const ty = centerY + (radius / 1.5) * Math.sin(textAngle);
+        const textPathId = `textPath${i}`;
+        const arc = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        const arcStart = startAngle + angleStep * 0.1;
+        const arcEnd = startAngle + angleStep * 0.9;
+        const ax1 = centerX + 110 * Math.cos(arcStart);
+        const ay1 = centerY + 110 * Math.sin(arcStart);
+        const ax2 = centerX + 110 * Math.cos(arcEnd);
+        const ay2 = centerY + 110 * Math.sin(arcEnd);
+        const arcD = `M${ax1},${ay1} A110,110 0 0,1 ${ax2},${ay2}`;
+        arc.setAttribute("d", arcD);
+        arc.setAttribute("id", textPathId);
+        wheel.appendChild(arc);
+
         const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        text.setAttribute("x", tx);
-        text.setAttribute("y", ty);
         text.setAttribute("class", "segment-text");
-        text.textContent = label;
+        const textPath = document.createElementNS("http://www.w3.org/2000/svg", "textPath");
+        textPath.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `#${textPathId}`);
+        textPath.setAttribute("startOffset", "50%");
+        textPath.textContent = label;
+        text.appendChild(textPath);
         wheel.appendChild(text);
       });
     }
@@ -215,12 +268,12 @@
         document.getElementById(`player${i}`).value = "";
       }
       challenges = [
-        "Ricochet Shot",
+        "Tunnel Shot",
+        "Laser Drop",
+        "Ricochet",
         "Mystery Box Shot",
         "Gap Shot",
-        "Snipe",
-        "Tunnel Shot",
-        "Laser Drop"
+        "Spin Shot"
       ];
       wheel.style.transform = "rotate(0deg)";
       document.getElementById("resultText").innerText = "Get ready to spin!";
