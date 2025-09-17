@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Harbor Games - Challenges</title>
+  <title>Harbor Games - Trick Shot Challenge</title>
   <style>
     :root {
       --primary: #007bff;
@@ -91,51 +91,12 @@
       border-radius: 6px;
       cursor: pointer;
     }
-
-    .wheel-section {
-      text-align: center;
-      margin-top: 2rem;
-    }
-
-    .spin-button {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 0.7rem 1.5rem;
-      font-size: 1.2rem;
-      border-radius: 8px;
-      margin: 0.5rem;
-      cursor: pointer;
-    }
-
-    .result, .winner {
-      margin-top: 1rem;
-      font-size: 1.3rem;
-      font-weight: bold;
-    }
-
-    .winner {
-      color: var(--accent);
-      font-size: 1.5rem;
-    }
-
-    svg {
-      transform: rotate(0deg);
-      transition: transform 3s ease-out;
-    }
-
-    .segment-text {
-      font-size: 12px;
-      fill: white;
-      text-anchor: middle;
-      dominant-baseline: middle;
-    }
   </style>
 </head>
 <body>
   <header>
-    <h1>🌊 Harbor Games 🌊</h1>
-    <h2>Challenges</h2>
+    <h1>🌊 Harbor Games</h1>
+    <h2>🎯 Trick Shot Challenge</h2>
     <p class="group-tagline">Created for the Harbor Homeschool Group</p>
   </header>
 
@@ -157,10 +118,9 @@
         <button class="add-point" onclick="addPoint(3)">+1</button>
       </div>
     </div>
-
-    <div class="wheel-section">
+        <div class="wheel-section">
       <svg id="wheel" width="320" height="320" viewBox="0 0 320 320"></svg>
-      <button class="spin-button" onclick="spinWheel()">🎡 Spin the Wheel</button>
+      <button class="spin-button" onclick="spinWheel()">🎡 Spin the Wheel!</button>
       <button class="spin-button" onclick="resetGame()">🔄 Reset Game</button>
       <div class="result" id="resultText">Get ready to spin!</div>
       <div class="winner" id="winnerText"></div>
@@ -183,7 +143,7 @@
 
     let scores = [0, 0, 0];
     let spinning = false;
-    let wheel = document.getElementById("wheel");
+    const wheel = document.getElementById("wheel");
 
     function renderWheel() {
       wheel.innerHTML = "";
@@ -252,3 +212,23 @@
       scores = [0, 0, 0];
       for (let i = 1; i <= 3; i++) {
         document.getElementById(`score${i}`).innerText = "0";
+        document.getElementById(`player${i}`).value = "";
+      }
+      challenges = [
+        "Ricochet Shot",
+        "Mystery Box Shot",
+        "Gap Shot",
+        "Snipe",
+        "Tunnel Shot",
+        "Laser Drop"
+      ];
+      wheel.style.transform = "rotate(0deg)";
+      document.getElementById("resultText").innerText = "Get ready to spin!";
+      document.getElementById("winnerText").innerText = "";
+      renderWheel();
+    }
+
+    renderWheel();
+  </script>
+</body>
+</html>
