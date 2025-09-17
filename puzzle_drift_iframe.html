@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Harbor Games Launcher</title>
+  <style>
+    :root {
+      --primary: #007bff;
+      --accent: #4caf50;
+      --bg: linear-gradient(to right, #e0f7fa, #f0f4f8);
+      --text: #333;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 0.3rem;
+    }
+
+    header h2 {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .group-tagline {
+      font-size: 1rem;
+      font-style: italic;
+      color: #666;
+    }
+
+    .launcher {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      padding: 2rem;
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .game-card {
+      background-color: #f9fbff;
+      border: 2px solid var(--primary);
+      border-radius: 12px;
+      padding: 1rem;
+      margin: 1rem 0;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .game-card:hover {
+      transform: scale(1.03);
+    }
+
+    input {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      width: 80%;
+    }
+
+    button {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      margin-top: 2rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌊 Harbor Games</h1>
+    <h2>🎮 Launcher</h2>
+    <p class="group-tagline">Created for the Harbor Homeschool Group</p>
+  </header>
+
+  <div class="launcher">
+    <input id="playerName" type="text" placeholder="Enter your name" />
+    <button onclick="saveName()">Save Name</button>
+
+    <div class="game-card" onclick="launchGame('puzzle-drift.html')">
+      🧩 Puzzle Drift
+    </div>
+
+    <button onclick="resetProgress()">🧹 Reset Progress</button>
+
+    <iframe id="gameFrame"></iframe>
+  </div>
+
+  <script>
+    function saveName() {
+      const name = document.getElementById("playerName").value;
+      if (name) {
+        localStorage.setItem("harborPlayerName", name);
+        alert("Name saved!");
+      }
+    }
+
+    function launchGame(url) {
+      const frame = document.getElementById("gameFrame");
+      frame.src = url;
+      frame.style.display = "block";
+    }
+
+    function resetProgress() {
+      if (confirm("Are you sure you want to reset all progress?")) {
+        localStorage.clear();
+        document.getElementById("playerName").value = "";
+        document.getElementById("gameFrame").style.display = "none";
+        alert("Progress reset.");
+      }
+    }
+
+    // Load saved name on startup
+    window.onload = () => {
+      const savedName = localStorage.getItem("harborPlayerName");
+      if (savedName) {
+        document.getElementById("playerName").value = savedName;
+      }
+    };
+  </script>
+</body>
+</html>
