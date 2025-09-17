@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Harbor Games - Trick Shot Challenge</title>
+  <title>Harbor Games - Challenges</title>
   <style>
     :root {
       --primary: #007bff;
@@ -135,8 +135,8 @@
 <body>
   <header>
     <h1>🌊 Harbor Games 🌊</h1>
-    <h2>Trick Shot Challenge</h2>
-    <p class="group-tagline">Created for the Harbor Homeschool Group by Austin Anderson</p>
+    <h2>Challenges</h2>
+    <p class="group-tagline">Created for the Harbor Homeschool Group</p>
   </header>
 
   <div class="container">
@@ -245,4 +245,10 @@
       const max = Math.max(...scores);
       const winnerIndex = scores.indexOf(max);
       const name = document.getElementById(`player${winnerIndex + 1}`).value || `Player ${winnerIndex + 1}`;
-      document.getElementById("winnerText").innerText = `🏆 ${name} wins with  ${max
+      document.getElementById("winnerText").innerText = `🏆 ${name} wins with ${max} points!`;
+    }
+
+    function resetGame() {
+      scores = [0, 0, 0];
+      for (let i = 1; i <= 3; i++) {
+        document.getElementById(`score${i}`).innerText = "0";
