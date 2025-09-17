@@ -95,6 +95,20 @@
     .wheel-section {
       text-align: center;
       margin-top: 2rem;
+      position: relative;
+    }
+
+    .pointer {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-bottom: 20px solid red;
+      z-index: 10;
     }
 
     .spin-button {
@@ -133,7 +147,7 @@
 <body>
   <header>
     <h1>🌊 Harbor Games 🌊</h1>
-    <h2>Challenges</h2>
+    <h2>Trick Shot Challenge</h2>
     <p class="group-tagline">Created for the Harbor Homeschool Group</p>
   </header>
 
@@ -155,7 +169,8 @@
         <button class="add-point" onclick="addPoint(3)">+1</button>
       </div>
     </div>
-        <div class="wheel-section">
+    <div class="wheel-section">
+      <div class="pointer"></div>
       <svg id="wheel" width="320" height="320" viewBox="0 0 320 320">
         <defs>
           <circle id="textPathCircle" cx="160" cy="160" r="110" />
@@ -184,6 +199,7 @@
 
     let scores = [0, 0, 0];
     let spinning = false;
+    let totalRotation = 0;
     const wheel = document.getElementById("wheel");
 
     function renderWheel() {
@@ -207,7 +223,6 @@
         wheel.appendChild(path);
 
         const textPathId = `textPath${i}`;
-        const arc = document.createElementNS("http://www.w3.org/2000/svg", "path");
         const arcStart = startAngle + angleStep * 0.1;
         const arcEnd = startAngle + angleStep * 0.9;
         const ax1 = centerX + 110 * Math.cos(arcStart);
@@ -215,6 +230,7 @@
         const ax2 = centerX + 110 * Math.cos(arcEnd);
         const ay2 = centerY + 110 * Math.sin(arcEnd);
         const arcD = `M${ax1},${ay1} A110,110 0 0,1 ${ax2},${ay2}`;
+        const arc = document.createElementNS("http://www.w3.org/2000/svg", "path");
         arc.setAttribute("d", arcD);
         arc.setAttribute("id", textPathId);
         wheel.appendChild(arc);
@@ -236,9 +252,10 @@
 
       const index = Math.floor(Math.random() * challenges.length);
       const selected = challenges[index];
-      const rotation = 360 * 5 + (360 / challenges.length) * index;
+      const segmentAngle = 360 / challenges.length;
+      totalRotation += 360 * 5 + segmentAngle * index;
 
-      wheel.style.transform = `rotate(${rotation}deg)`;
+      wheel.style.transform = `rotate(${totalRotation}deg)`;
 
       setTimeout(() => {
         document.getElementById("resultText").innerText = "Challenge: " + selected;
@@ -263,6 +280,7 @@
 
     function resetGame() {
       scores = [0, 0, 0];
+      totalRotation = 0;
       for (let i = 1; i <= 3; i++) {
         document.getElementById(`score${i}`).innerText = "0";
         document.getElementById(`player${i}`).value = "";
