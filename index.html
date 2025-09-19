@@ -250,10 +250,9 @@
       if (spinning || challenges.length === 0) return;
       spinning = true;
 
-      const index = Math.floor(Math.random() * challenges.length);
-      const selected = challenges[index];
-      const segmentAngle = 360 / challenges.length;
-      totalRotation += 360 * 10 + segmentAngle * index;
+      const selectedIndex = Math.floor(Math.random() * segments.length);
+      const targetAngle = 360 - (selectedIndex * segmentSize + segmentSize / 2);
+      const totalRotation = 360 * 10 + targetAngle; // 10 full spins + precise landing
 
       wheel.style.transform = `rotate(${totalRotation}deg)`;
 
