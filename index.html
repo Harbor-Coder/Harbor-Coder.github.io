@@ -254,7 +254,7 @@
       const index = Math.floor(Math.random() * challenges.length);
       const selected = challenges[index];
       const segmentAngle = 360 / challenges.length;
-      totalRotation += 360 * 2 + segmentAngle * index;//Change the number after 360 * 2 to change speed
+      totalRotation += 360 * 100 + segmentAngle * index;//Change the number after 360 * 2 to change speed
 
       wheel.style.transform = `rotate(${totalRotation}deg)`;
 
