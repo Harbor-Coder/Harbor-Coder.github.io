@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Harbor Games</title>
+  <title>Harbor Games - Trick Shot Challenge</title>
   <style>
     :root {
       --primary: #007bff;
@@ -146,9 +146,9 @@
 </head>
 <body>
   <header>
-    <h1>🌊 Harbor Games 🌊</h1>
-    <h2>Challenges</h2>
-    <p class="group-tagline">Created for the Harbor Homeschool Group by Austin Anderson</p>
+    <h1>🌊 Harbor Games</h1>
+    <h2>🎯 Trick Shot Challenge</h2>
+    <p class="group-tagline">Created for the Harbor Homeschool Group</p>
   </header>
 
   <div class="container">
@@ -250,9 +250,10 @@
       if (spinning || challenges.length === 0) return;
       spinning = true;
 
-      const selectedIndex = Math.floor(Math.random() * segments.length);
-      const targetAngle = 360 - (selectedIndex * segmentSize + segmentSize / 2);
-      const totalRotation = 360 * 10 + targetAngle; // 10 full spins + precise landing
+      const index = Math.floor(Math.random() * challenges.length);
+      const selected = challenges[index];
+      const segmentAngle = 360 / challenges.length;
+      totalRotation += 360 * 5 + segmentAngle * index;
 
       wheel.style.transform = `rotate(${totalRotation}deg)`;
 
@@ -299,7 +300,6 @@
     }
 
     renderWheel();
-  
   </script>
 </body>
 </html>
